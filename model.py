@@ -6,6 +6,8 @@ https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
 import torch.nn as nn
 import numpy as np
 
+from cfg import CFG
+
 
 class Generator(nn.Module):
     """
@@ -135,3 +137,20 @@ class Discriminator(nn.Module):
         validity = self.last_adv(out)  # (*, 1, 1, 1)
 
         return validity.squeeze()
+
+
+def get_models():
+    G = Generator(
+        image_size=CFG.imsize,
+        z_dim=CFG.z_dim,
+        conv_dim=CFG.g_conv_dim,
+        channels=CFG.channels,
+    ).to(CFG.device)
+
+    D = Discriminator(
+        image_size=CFG.imsize,
+        conv_dim=CFG.d_conv_dim,
+        channels=CFG.channels,
+    ).to(CFG.device)
+
+    return G, D

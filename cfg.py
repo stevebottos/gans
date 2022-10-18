@@ -6,10 +6,10 @@ class CFG:
     channels = 3
     g_conv_dim = 64
     d_conv_dim = 64
-    device = "cpu"
+    device = "cuda"
     g_lr = 0.0001
     d_lr = 0.0004
-    beta1 = 0.5 
+    beta1 = 0.5
     beta2 = 0.999
-    lambda_gp = 10 
+    lambda_gp = 10
     g_num = 5
