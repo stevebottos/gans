@@ -1,3 +1,4 @@
+from secrets import choice
 from tqdm import tqdm
 import os
 import json
@@ -118,8 +119,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--from-checkpoint", type=str, default="")
     parser.add_argument("--num-epochs", type=int, default=500)
-    parser.add_argument("--model", type=str, default="dcgan_upsample")
+    parser.add_argument(
+        "--model",
+        type=str,
+        default="dcgan_upsample",
+        choices=["dgcan", "dcgan_upsample"],
+    )
     parser.add_argument("--batchsize", type=int, default=64)
+    parser.add_argument(
+        "--dataset", type=str, default="flowers102", choices=["flowers102", "wojaks"]
+    )
     args = parser.parse_args()
 
     cfg = DefaultConfig(**args.__dict__)
