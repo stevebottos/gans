@@ -41,7 +41,7 @@ class Generator(nn.Module):
         )
 
     def forward(self, z):
-        z = z.view(z.size(0), -1, 1, 1)  # (*, 100, 1, 1)
+        z = z.view(z.size(0), -1, 1, 1)
         z = self.conv1(z)
         z = self.conv2(z)
         z = self.conv3(z)
