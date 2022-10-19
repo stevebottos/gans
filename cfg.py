@@ -35,6 +35,7 @@ class DefaultConfig:
 @click.option("--model", default="dcgan_upsample")
 @click.option("--batchsize", default=64)
 def parse_cfg(**kwargs):
+
     print(DefaultConfig(**kwargs))
 
 
