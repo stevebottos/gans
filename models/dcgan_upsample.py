@@ -1,7 +1,6 @@
 import torch.nn as nn
 
 from models.dcgan import Discriminator
-from cfg import CFG
 
 
 class UpBlock(nn.Module):
@@ -48,20 +47,3 @@ class Generator(nn.Module):
         z = self.conv6(z)
         z = self.final(z)
         return z
-
-
-def get_models():
-    assert CFG.imsize == 64, "imsize must be 64"
-    G = Generator(
-        z_dim=CFG.z_dim,
-        conv_dim=CFG.g_conv_dim,
-        channels=CFG.channels,
-    ).to(CFG.device)
-
-    D = Discriminator(
-        image_size=CFG.imsize,
-        conv_dim=CFG.d_conv_dim,
-        channels=CFG.channels,
-    ).to(CFG.device)
-
-    return G, D

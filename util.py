@@ -1,10 +1,8 @@
 import torch
 import torch.autograd as autograd
 
-from cfg import CFG
 
-
-def tensor2var(x, grad=False):
+def tensor2var(x, device, grad=False):
     """
     put tensor to gpu, and set grad to false
     Args:
@@ -13,12 +11,12 @@ def tensor2var(x, grad=False):
     Returns:
         tensor: tensor in gpu and set grad to false
     """
-    x = x.to(CFG.device)
+    x = x.to(device)
     x.requires_grad_(grad)
     return x
 
 
-def compute_gradient_penalty(D, real_images, fake_images):
+def compute_gradient_penalty(D, real_images, fake_images, device):
     """
     compute the gradient penalty where from the wgan-gp
     Args:
@@ -29,7 +27,7 @@ def compute_gradient_penalty(D, real_images, fake_images):
         [tensor]: computed the gradient penalty
     """
     # compute gradient penalty
-    alpha = torch.rand(real_images.size(0), 1, 1, 1).to(CFG.device).expand_as(real_images)
+    alpha = torch.rand(real_images.size(0), 1, 1, 1).to(device).expand_as(real_images)
     # (*, 1, 64, 64)
     interpolated = (
         alpha * real_images.data + ((1 - alpha) * fake_images.data)
@@ -40,7 +38,7 @@ def compute_gradient_penalty(D, real_images, fake_images):
     grad = autograd.grad(
         outputs=out,
         inputs=interpolated,
-        grad_outputs=torch.ones(out.size()).to(CFG.device),
+        grad_outputs=torch.ones(out.size()).to(device),
         retain_graph=True,
         create_graph=True,
         only_inputs=True,

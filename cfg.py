@@ -5,7 +5,6 @@ loaded instead and the number of epochs will be overwritten
 with the provided amount.
 """
 from dataclasses import dataclass
-import click
 
 
 @dataclass
@@ -27,17 +26,3 @@ class DefaultConfig:
     beta2: float = 0.999
     lambda_gp: int = 10
     g_num: int = 5
-
-
-@click.command()
-@click.option("--from-checkpoint", default="")
-@click.option("--num-epochs", default=500)
-@click.option("--model", default="dcgan_upsample")
-@click.option("--batchsize", default=64)
-def parse_cfg(**kwargs):
-
-    print(DefaultConfig(**kwargs))
-
-
-if __name__ == "__main__":
-    parse_cfg()

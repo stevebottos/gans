@@ -1,29 +1,35 @@
-import torchvision.transforms as transform
+import torchvision.transforms as T
 import torchvision
 import torch
 
-from cfg import CFG
 
-transform = transform.Compose(
-    [
-        transform.Resize(CFG.imsize),
-        transform.CenterCrop(CFG.imsize),
-        transform.ToTensor(),
-        transform.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-    ]
-)
-train_data = torchvision.datasets.Flowers102(
-    root="data", download=True, split="train", transform=transform
-)
-val_data = torchvision.datasets.Flowers102(
-    root="data", download=True, split="val", transform=transform
-)
-test_data = torchvision.datasets.Flowers102(
-    root="data", download=True, split="test", transform=transform
-)
+def get_dataset(cfg):
+    imsize = cfg.imsize
+    batchsize = cfg.batchsize
 
-data = torch.utils.data.ConcatDataset([train_data, val_data, test_data])
+    transform = T.Compose(
+        [
+            T.Resize(imsize),
+            T.CenterCrop(imsize),
+            T.ToTensor(),
+            T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ]
+    )
 
-dataloader = torch.utils.data.DataLoader(
-    data, batch_size=CFG.batchsize, shuffle=True, num_workers=2
-)
+    train_data = torchvision.datasets.Flowers102(
+        root="data", download=True, split="train", transform=transform
+    )
+    val_data = torchvision.datasets.Flowers102(
+        root="data", download=True, split="val", transform=transform
+    )
+    test_data = torchvision.datasets.Flowers102(
+        root="data", download=True, split="test", transform=transform
+    )
+
+    data = torch.utils.data.ConcatDataset([train_data, val_data, test_data])
+
+    dataloader = torch.utils.data.DataLoader(
+        data, batch_size=batchsize, shuffle=True, num_workers=2
+    )
+
+    return dataloader
