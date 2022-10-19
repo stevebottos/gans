@@ -3,6 +3,7 @@ data/*
 runs/
 .vscode
 model_playground.py
+**/*.png
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -24,19 +24,32 @@ def update_stats(statsfile: str, stats: dict):
         json.dump(stats, f)
 
 
-runs_folder = f"runs/{datetime.now()}"
-images_folder = os.path.join(runs_folder, "results")
-os.makedirs(runs_folder)
-os.makedirs(images_folder)
-run_stats = {"config": CFG().__dict__}
-run_stats["losses_G_D"] = []
-update_stats = partial(update_stats, f"{runs_folder}/run_stats.json")
-update_stats(run_stats)
+FROM_CHECKPOINT = "runs/2022-10-18 17:23:25.821549"
 
 G, D = get_models()
 g_optimizer = torch.optim.Adam(G.parameters(), CFG.g_lr, [CFG.beta1, CFG.beta2])
 d_optimizer = torch.optim.Adam(D.parameters(), CFG.d_lr, [CFG.beta1, CFG.beta2])
 fixed_z = tensor2var(torch.randn(CFG.batchsize, CFG.z_dim))
+
+if FROM_CHECKPOINT:
+    G.load_state_dict(
+        torch.load(os.path.join(FROM_CHECKPOINT, "generator_checkpoint.pth"))
+    )
+    D.load_state_dict(
+        torch.load(os.path.join(FROM_CHECKPOINT, "discriminator_checkpoint.pth"))
+    )
+
+
+runs_folder = f"runs/{datetime.now()}"
+images_folder = os.path.join(runs_folder, "results")
+os.makedirs(runs_folder)
+os.makedirs(images_folder)
+torch.save(fixed_z, os.path.join(runs_folder, "fixed_z.pt"))
+run_stats = {"config": CFG().__dict__}
+run_stats["losses_G_D"] = []
+update_stats = partial(update_stats, f"{runs_folder}/run_stats.json")
+update_stats(run_stats)
+
 
 for epoch in range(CFG.num_epochs):
     g_losses = []
@@ -85,9 +98,14 @@ for epoch in range(CFG.num_epochs):
     run_stats["losses_G_D"].append([g_losses, d_losses])
     update_stats(run_stats)
 
-    if not epoch % CFG.save_models_every:
-        torch.save(G.state_dict(), f"{runs_folder}/generator_checkpoint.pth")
-        torch.save(D.state_dict(), f"{runs_folder}/discriminator_checkpoint.pth")
+    if not epoch % CFG.save_checkpoint_every:
+        checkpoint = {
+            "generator_weights": G.state_dict(),
+            "discriminator_weights": D.state_dict(),
+            "generator_optimizer": g_optimizer.state_dict(),
+            "discriminator_optimizer": d_optimizer.state_dict(),
+        }
+        torch.save(checkpoint, f"{runs_folder}/checkpoint.pth")
 
     G.eval()
     with torch.no_grad():
