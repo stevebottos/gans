@@ -13,7 +13,7 @@ class UpBlock(nn.Module):
             nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=1, padding=0, bias=False),
+            nn.Conv2d(out_channels, out_channels, kernel_size=1, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
         )
@@ -33,7 +33,11 @@ class Generator(nn.Module):
         self.conv5 = UpBlock(conv_dim * 5, conv_dim * 4)
         self.conv6 = UpBlock(conv_dim * 4, conv_dim * 3)
         self.final = nn.Sequential(
-            nn.Conv2d(conv_dim * 3, channels, kernel_size=1, bias=False),
+            nn.Upsample(68, mode="bilinear", align_corners=True),
+            nn.Conv2d(conv_dim * 3, conv_dim * 3, kernel_size=3, padding=0, bias=False),
+            nn.BatchNorm2d(conv_dim * 3),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(conv_dim * 3, channels, kernel_size=3, padding=0, bias=False),
             nn.Tanh(),
         )
 

@@ -52,7 +52,7 @@ def train(dataset, G, D, cfg):
     update_stats = partial(_update_stats, f"{runs_folder}/run_stats.json")
     update_stats(run_stats)
 
-    for epoch in range(cfg.num_epochs):
+    for epoch in range(1, cfg.num_epochs + 1):
         g_losses = []
         d_losses = []
         for i, (real_images, _) in enumerate(tqdm(dataset)):
@@ -122,6 +122,7 @@ if __name__ == "__main__":
     parser.add_argument("--model", type=str, default="dcgan_upsample")
     parser.add_argument("--batchsize", type=int, default=64)
     args = parser.parse_args()
+
     cfg = DefaultConfig(**args.__dict__)
     dataset = get_dataset(cfg)
     G, D = get_model(cfg)
