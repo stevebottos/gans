@@ -1,15 +1,20 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class CFG:
-    num_epochs = 20
-    imsize = 64
-    batchsize = 8
-    z_dim = 100
-    channels = 3
-    g_conv_dim = 64
-    d_conv_dim = 64
-    device = "cuda"
-    g_lr = 0.0001
-    d_lr = 0.0004
-    beta1 = 0.5
-    beta2 = 0.999
-    lambda_gp = 10
-    g_num = 5
+    num_epochs: int = 500
+    save_models_every: int = 25
+    imsize: int = 64
+    batchsize: int = 64
+    z_dim: int = 100
+    channels: int = 3
+    g_conv_dim: int = 64
+    d_conv_dim: int = 64
+    device: str = "cuda"
+    g_lr: float = 0.0001
+    d_lr: float = 0.0004
+    beta1: float = 0.5
+    beta2: float = 0.999
+    lambda_gp: int = 10
+    g_num: int = 5

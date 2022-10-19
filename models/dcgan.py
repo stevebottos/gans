@@ -1,9 +1,5 @@
-"""
-pure dcgan structure.
-code similar sample from the pytorch code.
-https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html
-"""
 import torch.nn as nn
+import torch
 import numpy as np
 
 from cfg import CFG
@@ -140,6 +136,7 @@ class Discriminator(nn.Module):
 
 
 def get_models():
+    assert CFG.imsize == 64, "imsize must be 64"
     G = Generator(
         image_size=CFG.imsize,
         z_dim=CFG.z_dim,
