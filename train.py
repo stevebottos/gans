@@ -1,12 +1,11 @@
-import torch
-import torchvision
 from tqdm import tqdm
 import os
 import json
 from functools import partial
 import argparse
 
-import click
+import torch
+import torchvision
 from datetime import datetime
 import numpy as np
 
