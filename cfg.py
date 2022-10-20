@@ -13,7 +13,7 @@ class DefaultConfig:
     num_epochs: int
     model: str
     batchsize: int
-    dataset: str,
+    dataset: str
     save_checkpoint_every: int = 25
     imsize: int = 64
     z_dim: int = 100
