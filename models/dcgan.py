@@ -2,12 +2,13 @@ import torch.nn as nn
 import torch
 import numpy as np
 
+
 class Generator(nn.Module):
     """
     pure Generator structure
     """
 
-    def __init__(self, image_size=64, z_dim=100, conv_dim=64, channels=1):
+    def __init__(self, image_size, z_dim, conv_dim, channels):
 
         super(Generator, self).__init__()
         self.imsize = image_size
@@ -15,7 +16,7 @@ class Generator(nn.Module):
         self.z_dim = z_dim
 
         repeat_num = int(np.log2(self.imsize)) - 3  # 3
-        mult = 2**repeat_num  # 8
+        mult = 2 ** repeat_num  # 8
 
         self.l1 = nn.Sequential(
             # input is Z, going into a convolution.
@@ -73,7 +74,7 @@ class Discriminator(nn.Module):
     # Image (Cx64x64)
     """
 
-    def __init__(self, image_size=64, conv_dim=64, channels=1):
+    def __init__(self, image_size, conv_dim, channels):
         super(Discriminator, self).__init__()
         self.channels = channels
 

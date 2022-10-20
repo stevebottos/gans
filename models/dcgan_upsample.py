@@ -23,7 +23,7 @@ class UpBlock(nn.Module):
 
 
 class Generator(nn.Module):
-    def __init__(self, z_dim, conv_dim, channels):
+    def __init__(self, image_size, z_dim, conv_dim, channels):
         super(Generator, self).__init__()
 
         self.conv1 = UpBlock(z_dim, conv_dim * 8)

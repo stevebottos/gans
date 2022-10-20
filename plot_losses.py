@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import json
 import numpy as np
 
-run = "runs/2022-10-19 19:25:29.889364"
+run = "runs/2022-10-20 01:05:13.973520"
 with open(f"{run}/run_stats.json") as f:
     dat = np.array(json.load(f)["losses_G_D"])
 
