@@ -23,5 +23,5 @@ def test_get_model():
         outdim = torch.Size([4, 3, 64, 64])
         out_g = G(noise)
         out_d = D(out_g)
-        assert out_g.size() == outdim, f"size is {out_g.size()}"
+        assert out_g.size() == outdim, f"size is {out_g.size()}. Must be {outdim}"
         assert len(out_d) == 4
