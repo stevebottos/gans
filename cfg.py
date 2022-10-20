@@ -19,7 +19,7 @@ class DefaultConfig:
     z_dim: int = 100
     channels: int = 3
     g_conv_dim: int = 64
-    d_conv_dim: int = 128
+    d_conv_dim: int = 64
     device: str = "cuda"
     g_lr: float = 0.0001
     d_lr: float = 0.0004

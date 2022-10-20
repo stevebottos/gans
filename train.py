@@ -13,7 +13,7 @@ import numpy as np
 from cfg import DefaultConfig
 from dataset import get_dataset
 from models import get_model
-from util import tensor2var, compute_gradient_penalty
+from util import tensor2var, compute_gradient_penalty, plot_loss
 
 
 def manipulate_layers(mode, model):
@@ -98,7 +98,7 @@ def train(dataset, G, D, cfg):
         d_losses = np.round(np.mean(d_losses), 4)
         run_stats["losses_G_D"].append([g_losses, d_losses])
         update_stats(run_stats)
-
+        plot_loss(run_stats["losses_G_D"], f"{runs_folder}/losses.png")
         if not epoch % cfg.save_checkpoint_every:
             checkpoint = {
                 "generator_weights": G.state_dict(),
@@ -123,7 +123,7 @@ if __name__ == "__main__":
         "--model",
         type=str,
         default="dcgan_upsample",
-        choices=["dgcan", "dcgan_upsample"],
+        choices=["dgcan", "dcgan_upsample", "sagan"],
     )
     parser.add_argument("--batchsize", type=int, default=64)
     parser.add_argument(

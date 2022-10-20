@@ -1,5 +1,19 @@
 import torch
 import torch.autograd as autograd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def plot_loss(dat: list, outfile: str):
+    dat = np.array(dat)
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(dat)
+    plt.title("Loss over time")
+    ax.legend(["Generator", "Discriminator"])
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
+    plt.savefig(outfile)
+    plt.close()
 
 
 def tensor2var(x, device, grad=False):
