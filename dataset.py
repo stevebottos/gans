@@ -56,7 +56,7 @@ def _get_flowers_dataset(transform):
 
 
 def _get_wojak_dataset(transform):
-    return Wojaks(root="data", transform=transform)
+    return Wojaks(root="data", download=True, transform=transform)
 
 
 class Wojaks(VisionDataset):
@@ -70,7 +70,7 @@ class Wojaks(VisionDataset):
 
         self.url = "https://archive.org/download/wojak-collections/Wojak%20MEGA%20Collection.zip"
         self.root = root
-        self.filename = os.path.join(root, "Wojak MEGA Collection.zip")
+        self.filename = "Wojak MEGA Collection.zip"
         self.unpacked_folder = os.path.join(root, "Wojak MEGA Collection")
         self.unpacked_folder_rename = os.path.join(root, "wojaks")
         self.transparent_images = ["1596506322786.png", "1590018617967.png"]
